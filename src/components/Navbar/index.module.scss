@@ -1,0 +1,29 @@
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    background: #fff;
+    color: black;
+   
+    width: 100%;
+    padding: 0 2rem;
+    
+    font-size: 1.2rem;
+    font-weight: 700;
+
+    min-height: 4rem;
+
+    .homeSec,.CrudSec{
+        display: flex;
+        align-items: center;
+    }
+
+    .homeSec{
+        gap: 1rem;
+    }
+
+    .CrudSec{
+        gap: 2rem;
+    }
+}

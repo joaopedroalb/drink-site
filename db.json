@@ -1,0 +1,37 @@
+{
+    "person":[
+        {
+            "name": "Gabriel Aderaldo",
+            "_id": 0,
+            "path": "..."
+        },
+        {
+            "name": "Jota",
+            "_id": 1,
+            "path": "..."
+        },
+        {
+            "name": "Edson Corno",
+            "_id": 2,
+            "path": "..."
+        }
+    ],
+    "bebida":[
+        {
+            "type": "fermentada",
+            "_id": 0
+        },
+        {
+            "type": "Destilada",
+            "_id": 1
+        }
+    ],
+    "personXbebida": [
+        {
+            "_id": 0,
+            "idPerson": 0,
+            "idBebida": 0,
+            "isBebeu": false
+        }
+    ]
+}
