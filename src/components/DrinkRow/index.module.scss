@@ -1,0 +1,33 @@
+.card{
+    width: 230px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 1rem;
+
+    background-color: #fff;
+
+    button{
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 68px;
+        height: 100%;
+        color: #1baf1b;
+        background: white;
+        font-size: 2rem;
+
+        svg{
+            cursor: pointer;
+        }
+    }
+}
+
+.title{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
