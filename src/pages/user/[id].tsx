@@ -20,7 +20,7 @@ class Person{
 
 }
 
-const mocksAux:Array<Person> = [
+let mocksAux:Array<Person> = [
     new Person("Pinga"),
     new Person("Dose de 51"),
     new Person("Água"),
@@ -33,7 +33,11 @@ export default function User(){
     const [mocks,setMocks] = useState(mocksAux)
 
     useEffect(()=>{
-        setMocks(mocksAux)
+        mocksAux = [
+            new Person("Pinga"),
+            new Person("Dose de 51"),
+            new Person("Água"),
+        ]
         
     },[])
 
