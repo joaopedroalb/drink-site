@@ -5,7 +5,11 @@
     min-height: 100vh;
 
     .content{
+        flex-grow: 1;
         display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
         width: 100%;
         padding: 1rem;
         gap: 2rem;
