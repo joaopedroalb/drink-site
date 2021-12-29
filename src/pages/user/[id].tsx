@@ -9,13 +9,18 @@ import styles from "./user.module.scss"
 
 export default function User(){
     const router = useRouter()
-    const id = parseInt(router.query.id as string)
-
     const {lstUsers} = useContext(DrinkContext)
 
-    const [user,setUser] = useState<any>(getUserById(id))
+    const {id} = router.query
 
-    useEffect(()=>{},[])
+    const [user,setUser] = useState<UserModel|undefined>()
+
+    useEffect(()=>{
+        if(!id)
+            return 
+        setUser(getUserById(parseInt(id as string)))
+        //console.log("Meu id é "+id)
+    },[id])
 
     function getUserById(id:number){
         const user = lstUsers.filter(u=>u.id==id)[0]
@@ -41,7 +46,7 @@ export default function User(){
         <div className={styles.container}>
             <Navbar/>
             <div className={styles.content}>
-                {user != null ? renderContent(user.lstDrinks):false}
+                {user&&renderContent(user.lstDrinks)}
             </div>
         </div>
     )
