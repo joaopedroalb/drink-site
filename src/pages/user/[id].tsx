@@ -19,7 +19,6 @@ export default function User(){
 
     function getUserById(id:number){
         const user = lstUsers.filter(u=>u.id==id)[0]
-        console.log(user)
         return user
     }
 
@@ -27,7 +26,7 @@ export default function User(){
         if(lstDrinks.filter(e=>e.drinked).length!=lstDrinks.length){
             return (
                 lstDrinks.map((e,i)=>{
-                    return e.drinked?(false):(<DrinkRow name={e.name} onClick={()=>console.log("oi")} key={i}/>)
+                    return e.drinked?(false):(<DrinkRow drink={e} key={i}/>)
                 })
             )
         }
