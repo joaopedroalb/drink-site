@@ -1,57 +1,33 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import DrinkRow from "../../components/DrinkRow";
 import Navbar from "../../components/Navbar";
+import { DrinkContext } from "../../contexts/DrinkContext";
+import DrinkModel from "../../model/Drink";
+import UserModel from "../../model/User";
 import styles from "./user.module.scss"
-
-class Person{
-    name:string
-    isBebeu:boolean
-
-    constructor(name:string){
-        this.name = name
-        this.isBebeu = false
-    }
-
-    bebeu(){
-        console.log("entrou no do "+this.name)
-        this.isBebeu = true;
-    }
-
-}
-
-let mocksAux:Array<Person> = [
-    new Person("Pinga"),
-    new Person("Dose de 51"),
-    new Person("Água"),
-]
 
 export default function User(){
     const router = useRouter()
-    const id = router.query.id
+    const id = parseInt(router.query.id as string)
 
-    const [mocks,setMocks] = useState(mocksAux)
+    const {lstUsers} = useContext(DrinkContext)
 
-    useEffect(()=>{
-        mocksAux = [
-            new Person("Pinga"),
-            new Person("Dose de 51"),
-            new Person("Água"),
-        ]
-        
-    },[])
+    const [user,setUser] = useState<any>(getUserById(id))
 
-    function irmaoBebeu(index:number){
-        const lst = [...mocks]
-        lst[index].bebeu()
-        setMocks(lst)
+    useEffect(()=>{},[])
+
+    function getUserById(id:number){
+        const user = lstUsers.filter(u=>u.id==id)[0]
+        console.log(user)
+        return user
     }
 
-    function renderContent(){
-        if(mocks.filter(e=>e.isBebeu==true).length!=mocks.length){
+    function renderContent(lstDrinks:DrinkModel[]){
+        if(lstDrinks.filter(e=>e.drinked).length!=lstDrinks.length){
             return (
-                mocks.map((e,i)=>{
-                    return e.isBebeu?(false):(<DrinkRow name={e.name} onClick={()=>irmaoBebeu(i)} key={i}/>)
+                lstDrinks.map((e,i)=>{
+                    return e.drinked?(false):(<DrinkRow name={e.name} onClick={()=>console.log("oi")} key={i}/>)
                 })
             )
         }
@@ -66,7 +42,7 @@ export default function User(){
         <div className={styles.container}>
             <Navbar/>
             <div className={styles.content}>
-                {renderContent()}
+                {user != null ? renderContent(user.lstDrinks):false}
             </div>
         </div>
     )

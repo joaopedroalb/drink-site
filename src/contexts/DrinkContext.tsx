@@ -8,8 +8,8 @@ import axios from 'axios'
 type DrinkContextData = {
     lstUsers: UserModel[];
     setLstUsers:React.Dispatch<React.SetStateAction<Array<UserModel>>>;
+    getUserById: (id:number)=>UserModel
 }
-
 
 export const DrinkContext = createContext({} as DrinkContextData)
 
@@ -20,16 +20,20 @@ type DrinkContextProviderProps = {
 export function DrinkContextProvider({children}:DrinkContextProviderProps){
     const [lstUsers,setLstUsers] = useState<Array<UserModel>>([])
 
-    const baseUrl = `3.142.54.6/user/`
+    const baseUrl = `3.142.54.6:3000/user/`
+
     useEffect(()=>{
-        //base url 3.142.54.6
+        //base url 3.142.54.6:3000
         //getUserData()
-        getUserDataMock()
+        if(lstUsers.length<=0){
+            getUserDataMock()
+        }
     },[])
 
     //func mock enquanto nao tem api
-    function getUserDataMock(){
-        let lstUserAux:Array<UserModel> = []
+    async function getUserDataMock(){
+        let lstUserAux:Array<UserModel> = [] 
+
         lstUserAux.push(
         new UserModel(1,"Aderaldo","https://cdn.discordapp.com/attachments/580125063186087966/925739276388429864/EzXdQzlVEAEUcqG.png",
         [new DrinkModel(1,1,"Caninha do engenho",false),new DrinkModel(2,1,"Dose de cana",false)]))
@@ -40,7 +44,7 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
         )
 
         lstUserAux.push(
-            new UserModel(3,"Isaque","https://cdn.discordapp.com/attachments/580125063186087966/925741221874380830/latest.png",
+            new UserModel(3,"Isaque","https://cdn.discordapp.com/attachments/469630958811742212/925800217905856543/lucas-crispim-comemora-gol-marcado-pelo-fortaleza-em-cima-do-santos-seu-ex-clube-1630704930812_v2_450x337.png",
             [new DrinkModel(6,3,"Skolzinha",false)])
         )
 
@@ -72,8 +76,13 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
         return lstDrinkAux
     }
     // fim da api req
+
+    function getUserById(id:number){
+        const user = lstUsers.filter(u=>u.id==id)[0]
+        return user
+    }
     return <DrinkContext.Provider value={{
-        lstUsers,setLstUsers
+        lstUsers,setLstUsers,getUserById
     }}>
         {children}
     </DrinkContext.Provider>

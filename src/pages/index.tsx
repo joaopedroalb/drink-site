@@ -11,8 +11,7 @@ import styles from '../styles/Home.module.scss'
 const Home: NextPage = () => {
 
   const {lstUsers} = useContext(DrinkContext)
-  console.log(lstUsers)
-
+  
   const getDrinks = (user:UserModel) => {
     const result = user.lstDrinks.filter(drink=>!drink.drinked).length
     return result
