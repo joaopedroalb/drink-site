@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { ChangeEvent, ChangeEventHandler, useContext, useState } from "react"
 import { DrinkContext } from "../../contexts/DrinkContext"
 import Btn from "../Btn"
 import styles from "./index.module.scss"
@@ -21,13 +21,23 @@ export default function FormPerson(){
         path:""
     })
 
+    function handleChange(e:ChangeEvent<HTMLInputElement>){
+        const newPerson = {...person}
+
+        if(e.target.id=="name"||e.target.id=="path"){
+            newPerson[e.target.id] = e.target.value
+            setPerson(newPerson)
+        }
+        
+    }
+
     return(
         <form className={styles.form}>
             <label>Digite o nome do ser humano</label>
-            <input type="text" onChange={(e)=>setPerson({name:e.target.value,path:person.path})} value={person.name}/>
+            <input id="name" type="text" onChange={(e)=>handleChange(e)} value={person.name}/>
 
             <label>{"Digite o o path da imagem (favor use o path do discord, grato)"}</label>
-            <input type="text" onChange={(e)=>setPerson({name:person.name,path:e.target.value})} value={person.path}/>
+            <input id="path" type="text" onChange={(e)=>handleChange(e)} value={person.path}/>
 
             <Btn text="Confirmar" onClick={()=>createPerson()}/>
         </form>
