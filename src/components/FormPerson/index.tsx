@@ -7,12 +7,9 @@ export default function FormPerson(){
 
     const {createUser} = useContext(DrinkContext)
 
-    function createPerson(){
-        console.log("Oi entrei aqui")
-        console.log(person)
-        console.log(person.path.includes("cdn.discordapp.com/attachments/"))
+    async function createPerson(){
         if(person.name!=""&&person.path.includes("cdn.discordapp.com/attachments/")){
-            createUser(person.name,person.path)
+            await createUser(person.name,person.path)
             setPerson({name:"",path:""})
         }
     }

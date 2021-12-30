@@ -43,14 +43,16 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
 
         let lstUserAux:Array<UserModel> = []
 
-        userData.map(async(user:any)=>{
-            const userDrinks = await getDrinkLst(user._id)
-            const newUser = new UserModel(user._id,
-                                        user.name,
-                                        user.path.includes("cdn.discordapp.com/attachments/")?user.path:pathImg,
-                                        userDrinks)
-            lstUserAux.push(newUser)
-        })
+        if(userData){
+            userData.map(async(user:any)=>{
+                const userDrinks = await getDrinkLst(user._id)
+                const newUser = new UserModel(user._id,
+                                            user.name,
+                                            user.path.includes("cdn.discordapp.com/attachments/")?user.path:pathImg,
+                                            userDrinks)
+                lstUserAux.push(newUser)
+            })
+        }
 
         setLstUsers(lstUserAux)
 
@@ -93,11 +95,13 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
         setLstUsers(newList)
     }
 
-    function createUser(name:string,path:string){
-        //id enquanto nao tem o post
-        const idMock = lstUsers[lstUsers.length-1].id+1
+    async function createUser(name:string,path:string){
+        const userData = await axios.post(baseUrl,{
+                                name:name,
+                                path:path
+                            }).then(resp=>resp.data)
 
-        const newUser = new UserModel(idMock,name,path,[])
+        const newUser = new UserModel(userData._id,name,path,[])
         
         let newList = [...lstUsers]
         newList.push(newUser)
@@ -105,7 +109,7 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
         setLstUsers(newList)
     }
 
-    function createDrink(idUser:string,name:string){
+    async function createDrink(idUser:string,name:string){
         const idDrink = lastIndexDrink+1;
         setLastIndexDrink(idDrink);
 

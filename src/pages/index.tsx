@@ -18,6 +18,9 @@ const Home: NextPage = () => {
   }
 
   function renderContent(){
+    if(lstUsers.length==0)
+      return <h1>Não tem usuario</h1>
+
     return(
       lstUsers.map(user=>{
         return (<Card name={user.name} idPerson={user.id} drinks={getDrinks(user)} pathImg={user.path} key={user.id}/>)
