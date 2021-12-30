@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { DrinkContext } from "../../contexts/DrinkContext"
 import Drink from "../../pages/Drink"
 import Btn from "../Btn"
 import styles from "./index.module.scss"
@@ -10,12 +11,16 @@ type MyDrink = {
 }
 
 export default function FormDrink(){
-    function createDrink(){
-        const newDrink:MyDrink = {personId:idPerson,name:nameDrink,isBebeu:false}
-        console.log(newDrink)
+    function addDrink(){
+        if(nameDrink!=""&&idPerson>0){
+            console.log("Id: "+idPerson+" Name: "+nameDrink)
+            createDrink(idPerson,nameDrink)
+        }
     }
     const [idPerson,setIdPerson] = useState(0)
     const [nameDrink,setNameDrink] = useState("")
+
+    const {lstUsers,createDrink} =  useContext(DrinkContext)
     
     return(
         <form className={styles.form}>
@@ -24,13 +29,13 @@ export default function FormDrink(){
 
             <label>{"Selecione a pessoa que deve beber"}</label>
             <select onChange={(e)=>setIdPerson(+e.target.value)}>
-                <option value={0}>Gabriel</option>
-                <option value={1}>Edson</option>
-                <option value={2}>Isaque</option>
-                <option value={3}>Chico</option>
+                <option value={0}>Escolha uma pessoa</option>
+                {lstUsers.map(user=>{
+                    return <option value={user.id} key={user.id}>{user.name}</option>
+                })}
             </select>
 
-            <Btn text="Confirmar" onClick={()=>createDrink()}/>
+            <Btn text="Confirmar" onClick={()=>addDrink()}/>
         </form>
     )
 }

@@ -11,6 +11,8 @@ type DrinkContextData = {
     getUserById: (id:number)=>UserModel
     doneDrinkById: (idUser:number,idDrink:number)=>void
     createUser: (name:string,path:string)=>void
+    createDrink:(idUser:number,name:string)=>void
+
 }
 
 export const DrinkContext = createContext({} as DrinkContextData)
@@ -21,6 +23,9 @@ type DrinkContextProviderProps = {
 
 export function DrinkContextProvider({children}:DrinkContextProviderProps){
     const [lstUsers,setLstUsers] = useState<Array<UserModel>>([])
+
+    //ISSO SERA DELETADO
+    const [lastIndexDrink,setLastIndexDrink] = useState(6)
 
     const baseUrl = `3.142.54.6:3000/user/`
 
@@ -111,8 +116,25 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
         setLstUsers(newList)
     }
 
+    function createDrink(idUser:number,name:string){
+        const idDrink = lastIndexDrink+1;
+        setLastIndexDrink(idDrink);
+
+        let newList = [...lstUsers]
+
+        
+        let user = newList.filter(u=>u.id==idUser)[0]
+        const indexUser = newList.indexOf(user)
+
+        user.lstDrinks.push(new DrinkModel(idDrink,user.id,name,false))
+
+        newList[indexUser] = user
+
+        setLstUsers(newList)
+        
+    }
     return <DrinkContext.Provider value={{
-        lstUsers,setLstUsers,getUserById,doneDrinkById,createUser
+        lstUsers,setLstUsers,getUserById,doneDrinkById,createUser,createDrink
     }}>
         {children}
     </DrinkContext.Provider>
