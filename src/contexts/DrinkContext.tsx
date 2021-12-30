@@ -9,6 +9,7 @@ type DrinkContextData = {
     lstUsers: UserModel[];
     setLstUsers:React.Dispatch<React.SetStateAction<Array<UserModel>>>;
     getUserById: (id:number)=>UserModel
+    doneDrinkById: (idUser:number,idDrink:number)=>void
 }
 
 export const DrinkContext = createContext({} as DrinkContextData)
@@ -81,8 +82,24 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
         const user = lstUsers.filter(u=>u.id==id)[0]
         return user
     }
+
+    function doneDrinkById(idDrink:number,idUser:number){
+        const user = lstUsers.filter(u=>u.id==idUser)[0]
+        const indexUser = lstUsers.indexOf(user)
+        const indexDrink =  user.lstDrinks.indexOf(user.lstDrinks.filter(d=>d.id==idDrink)[0])
+        const drinked = user.lstDrinks.filter(d=>d.id==idDrink)[0].Drinked()
+
+        console.log(user.lstDrinks)
+        
+        let newList = [...lstUsers]
+
+        newList[indexUser].lstDrinks[indexDrink] = drinked
+        
+        setLstUsers(newList)
+    }
+
     return <DrinkContext.Provider value={{
-        lstUsers,setLstUsers,getUserById
+        lstUsers,setLstUsers,getUserById,doneDrinkById
     }}>
         {children}
     </DrinkContext.Provider>
