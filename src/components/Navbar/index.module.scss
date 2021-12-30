@@ -26,4 +26,10 @@
     .CrudSec{
         gap: 2rem;
     }
+
+    @media screen and (max-width: 500px){
+        .title{
+            display: none;
+        }
+    }
 }

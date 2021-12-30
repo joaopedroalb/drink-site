@@ -18,7 +18,7 @@ export default function Navbar(){
                 </div>
                 
                 <a>
-                    <h1>Local Host</h1>
+                    <h1 className={styles.title}>Local Host</h1>
                 </a>
                 
             </div>
