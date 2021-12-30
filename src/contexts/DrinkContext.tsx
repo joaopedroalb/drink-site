@@ -27,45 +27,28 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
     //ISSO SERA DELETADO
     const [lastIndexDrink,setLastIndexDrink] = useState(6)
 
-    const baseUrl = `3.142.54.6:3000/user/`
+    const baseUrl = ``
+
+    const pathImg = "https://cdn.discordapp.com/attachments/580125063186087966/926204078613225522/Portrait_Placeholder.png"
 
     useEffect(()=>{
-        //base url 3.142.54.6:3000
-        //getUserData()
-        if(lstUsers.length<=0){
-            getUserDataMock()
-        }
+        getUserData()
     },[])
 
-    //func mock enquanto nao tem api
-    async function getUserDataMock(){
-        let lstUserAux:Array<UserModel> = [] 
-
-        lstUserAux.push(
-        new UserModel(1,"Aderaldo","https://cdn.discordapp.com/attachments/580125063186087966/925739276388429864/EzXdQzlVEAEUcqG.png",
-        [new DrinkModel(1,1,"Caninha do engenho",false),new DrinkModel(2,1,"Dose de cana",false)]))
-        
-        lstUserAux.push(
-            new UserModel(2,"Edson","https://cdn.discordapp.com/attachments/580125063186087966/925740228000481330/9k.png",
-            [new DrinkModel(3,2,"Vinho",false), new DrinkModel(4,2,"Skol",false), new DrinkModel(5,2,"Dose de 51",false)])
-        )
-
-        lstUserAux.push(
-            new UserModel(3,"Isaque","https://cdn.discordapp.com/attachments/580125063186087966/925741221874380830/latest.png",
-            [new DrinkModel(6,3,"Skolzinha",false)])
-        )
-
-        setLstUsers(lstUserAux)
-    }
 
     // inicio da req 
     async function getUserData() {
+        //const userData:any = await axios.get("https://pokeapi.co/api/v2/").then(resp=>resp.data)
         const userData:any = await axios.get(baseUrl).then(resp=>resp.data)
+
         let lstUserAux:Array<UserModel> = []
 
         userData.map(async(user:any)=>{
-            const userDrinks = await getDrinkLst(user.Id)
-            const newUser = new UserModel(user.Id,user.Name,user.Path,userDrinks)
+            const userDrinks = await getDrinkLst(user._id)
+            const newUser = new UserModel(user._id,
+                                        user.name,
+                                        user.path.includes("cdn.discordapp.com/attachments/")?user.path:pathImg,
+                                        userDrinks)
             lstUserAux.push(newUser)
         })
 
@@ -76,8 +59,12 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
         const drinkData:any = await axios.get(`${baseUrl}${idUser}/drinks`).then(resp=>resp.data)
 
         let lstDrinkAux:Array<DrinkModel> = []
+
+        if(!drinkData)
+            return lstDrinkAux
+
         drinkData.map((drink:any)=>{
-            const newDrink = new DrinkModel(drink.Id,idUser,drink.Name,drink.None)
+            const newDrink = new DrinkModel(drink._id,idUser,drink.name,drink.done)
             lstDrinkAux.push(newDrink)
         })
         return lstDrinkAux
@@ -85,6 +72,8 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
     // fim da api req
 
     function getUserById(id:number){
+        console.log(lstUsers)
+        console.log("x")
         const user = lstUsers.filter(u=>u.id==id)[0]
         return user
     }
@@ -94,8 +83,6 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
         const indexUser = lstUsers.indexOf(user)
         const indexDrink =  user.lstDrinks.indexOf(user.lstDrinks.filter(d=>d.id==idDrink)[0])
         const drinked = user.lstDrinks.filter(d=>d.id==idDrink)[0].Drinked()
-
-        console.log(user.lstDrinks)
         
         let newList = [...lstUsers]
 

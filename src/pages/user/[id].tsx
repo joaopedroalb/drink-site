@@ -9,7 +9,7 @@ import styles from "./user.module.scss"
 
 export default function User(){
     const router = useRouter()
-    const {getUserById} = useContext(DrinkContext)
+    const {getUserById,lstUsers} = useContext(DrinkContext)
 
     const {id} = router.query
 
@@ -19,6 +19,8 @@ export default function User(){
         if(!id)
             return 
         setUser(getUserById(parseInt(id as string)))
+        console.log("Lista de usuarios: ")
+        console.log(user)
         //console.log("Meu id é "+id)
     },[id])
 
