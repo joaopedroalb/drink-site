@@ -9,20 +9,17 @@ import styles from "./user.module.scss"
 
 export default function User(){
     const router = useRouter()
-    const {getUserById,lstUsers} = useContext(DrinkContext)
+    const {getUserById,loaded} = useContext(DrinkContext)
 
     const {id} = router.query
 
     const [user,setUser] = useState<UserModel|undefined>()
 
     useEffect(()=>{
-        if(!id)
+        if(!id||!loaded)
             return 
-        setUser(getUserById(parseInt(id as string)))
-        console.log("Lista de usuarios: ")
-        console.log(user)
-        //console.log("Meu id é "+id)
-    },[id])
+        setUser(getUserById(id as string))
+    },[id,loaded])
 
     function renderContent(lstDrinks:DrinkModel[]){
         if(lstDrinks.filter(e=>e.drinked).length!=lstDrinks.length){
@@ -39,11 +36,18 @@ export default function User(){
         )
     }
 
-    return(
+    return loaded?(
         <div className={styles.container}>
             <Navbar/>
             <div className={styles.content}>
                 {user&&renderContent(user.lstDrinks)}
+            </div>
+        </div>
+    ):(
+        <div className={styles.container}>
+            <Navbar/>
+            <div className={styles.content}>
+                LOADING
             </div>
         </div>
     )

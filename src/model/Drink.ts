@@ -1,10 +1,10 @@
 export default class DrinkModel{
-    id:number 
-    idUser:number
+    id:string 
+    idUser:string
     name: string
     drinked:boolean
 
-    constructor(id:number,idUser:number,name:string, drinked=false){
+    constructor(id:string,idUser:string,name:string, drinked=false){
         this.id = id;
         this.idUser = idUser
         this.name = name

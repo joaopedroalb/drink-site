@@ -8,11 +8,11 @@ import axios from 'axios'
 type DrinkContextData = {
     lstUsers: UserModel[];
     setLstUsers:React.Dispatch<React.SetStateAction<Array<UserModel>>>;
-    getUserById: (id:number)=>UserModel
-    doneDrinkById: (idUser:number,idDrink:number)=>void
+    getUserById: (id:string)=>UserModel
+    doneDrinkById: (idUser:string,idDrink:string)=>void
     createUser: (name:string,path:string)=>void
-    createDrink:(idUser:number,name:string)=>void
-
+    createDrink:(idUser:string,name:string)=>void
+    loaded:boolean
 }
 
 export const DrinkContext = createContext({} as DrinkContextData)
@@ -23,18 +23,18 @@ type DrinkContextProviderProps = {
 
 export function DrinkContextProvider({children}:DrinkContextProviderProps){
     const [lstUsers,setLstUsers] = useState<Array<UserModel>>([])
+    const [loaded,setloaded] = useState(false)
 
     //ISSO SERA DELETADO
-    const [lastIndexDrink,setLastIndexDrink] = useState(6)
+    const [lastIndexDrink,setLastIndexDrink] = useState("6")
 
-    const baseUrl = ``
+    const baseUrl = `http://3.13.112.254:3000/user/`
 
     const pathImg = "https://cdn.discordapp.com/attachments/580125063186087966/926204078613225522/Portrait_Placeholder.png"
 
     useEffect(()=>{
         getUserData()
     },[])
-
 
     // inicio da req 
     async function getUserData() {
@@ -53,9 +53,11 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
         })
 
         setLstUsers(lstUserAux)
+
+        setTimeout(()=>{setloaded(true)},1800)
     }
 
-    async function getDrinkLst(idUser:number){
+    async function getDrinkLst(idUser:string){
         const drinkData:any = await axios.get(`${baseUrl}${idUser}/drinks`).then(resp=>resp.data)
 
         let lstDrinkAux:Array<DrinkModel> = []
@@ -71,14 +73,14 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
     }
     // fim da api req
 
-    function getUserById(id:number){
+    function getUserById(id:string){
         console.log(lstUsers)
         console.log("x")
         const user = lstUsers.filter(u=>u.id==id)[0]
         return user
     }
 
-    function doneDrinkById(idDrink:number,idUser:number){
+    function doneDrinkById(idDrink:string,idUser:string){
         const user = lstUsers.filter(u=>u.id==idUser)[0]
         const indexUser = lstUsers.indexOf(user)
         const indexDrink =  user.lstDrinks.indexOf(user.lstDrinks.filter(d=>d.id==idDrink)[0])
@@ -103,7 +105,7 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
         setLstUsers(newList)
     }
 
-    function createDrink(idUser:number,name:string){
+    function createDrink(idUser:string,name:string){
         const idDrink = lastIndexDrink+1;
         setLastIndexDrink(idDrink);
 
@@ -121,7 +123,7 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
         
     }
     return <DrinkContext.Provider value={{
-        lstUsers,setLstUsers,getUserById,doneDrinkById,createUser,createDrink
+        lstUsers,setLstUsers,getUserById,doneDrinkById,createUser,createDrink,loaded
     }}>
         {children}
     </DrinkContext.Provider>

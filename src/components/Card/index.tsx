@@ -5,7 +5,7 @@ import Btn from "../Btn"
 
 interface CardProps{
     name:string
-    idPerson:number
+    idPerson:string
     drinks:number
     pathImg:string
 }
