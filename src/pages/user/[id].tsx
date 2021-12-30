@@ -9,7 +9,7 @@ import styles from "./user.module.scss"
 
 export default function User(){
     const router = useRouter()
-    const {lstUsers} = useContext(DrinkContext)
+    const {getUserById} = useContext(DrinkContext)
 
     const {id} = router.query
 
@@ -21,11 +21,6 @@ export default function User(){
         setUser(getUserById(parseInt(id as string)))
         //console.log("Meu id é "+id)
     },[id])
-
-    function getUserById(id:number){
-        const user = lstUsers.filter(u=>u.id==id)[0]
-        return user
-    }
 
     function renderContent(lstDrinks:DrinkModel[]){
         if(lstDrinks.filter(e=>e.drinked).length!=lstDrinks.length){

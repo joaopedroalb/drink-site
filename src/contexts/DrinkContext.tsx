@@ -10,6 +10,7 @@ type DrinkContextData = {
     setLstUsers:React.Dispatch<React.SetStateAction<Array<UserModel>>>;
     getUserById: (id:number)=>UserModel
     doneDrinkById: (idUser:number,idDrink:number)=>void
+    createUser: (name:string,path:string)=>void
 }
 
 export const DrinkContext = createContext({} as DrinkContextData)
@@ -45,7 +46,7 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
         )
 
         lstUserAux.push(
-            new UserModel(3,"Isaque","https://cdn.discordapp.com/attachments/469630958811742212/925800217905856543/lucas-crispim-comemora-gol-marcado-pelo-fortaleza-em-cima-do-santos-seu-ex-clube-1630704930812_v2_450x337.png",
+            new UserModel(3,"Isaque","https://cdn.discordapp.com/attachments/580125063186087966/925741221874380830/latest.png",
             [new DrinkModel(6,3,"Skolzinha",false)])
         )
 
@@ -98,8 +99,20 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
         setLstUsers(newList)
     }
 
+    function createUser(name:string,path:string){
+        //id enquanto nao tem o post
+        const idMock = lstUsers[lstUsers.length-1].id+1
+
+        const newUser = new UserModel(idMock,name,path,[])
+        
+        let newList = [...lstUsers]
+        newList.push(newUser)
+
+        setLstUsers(newList)
+    }
+
     return <DrinkContext.Provider value={{
-        lstUsers,setLstUsers,getUserById,doneDrinkById
+        lstUsers,setLstUsers,getUserById,doneDrinkById,createUser
     }}>
         {children}
     </DrinkContext.Provider>
