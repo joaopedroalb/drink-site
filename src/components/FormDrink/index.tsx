@@ -11,10 +11,11 @@ type MyDrink = {
 }
 
 export default function FormDrink(){
-    function addDrink(){
+    async function addDrink(){
         if(nameDrink!=""&&idPerson!=""){
             console.log("Id: "+idPerson+" Name: "+nameDrink)
             createDrink(idPerson,nameDrink)
+            setNameDrink("")
         }
     }
     const [idPerson,setIdPerson] = useState("")
@@ -25,11 +26,11 @@ export default function FormDrink(){
     return(
         <form className={styles.form}>
             <label>Digite o nome da bebida</label>
-            <input type="text" onChange={(e)=>setNameDrink(e.target.value)}/>
+            <input type="text" onChange={(e)=>setNameDrink(e.target.value)} value={nameDrink}/>
 
             <label>{"Selecione a pessoa que deve beber"}</label>
             <select onChange={(e)=>setIdPerson(e.target.value)}>
-                <option value={0}>Escolha uma pessoa</option>
+                <option value={""}>Escolha uma pessoa</option>
                 {lstUsers.map(user=>{
                     return <option value={user.id} key={user.id}>{user.name}</option>
                 })}

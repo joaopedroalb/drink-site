@@ -1,0 +1,15 @@
+.container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+
+    padding: 1rem;
+
+    background-color: #fed766;
+    
+    img{
+        border-radius: 50%;
+    }
+}

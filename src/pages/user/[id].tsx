@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import DrinkRow from "../../components/DrinkRow";
 import Navbar from "../../components/Navbar";
+import UserTitle from "../../components/UserTitle";
 import { DrinkContext } from "../../contexts/DrinkContext";
 import DrinkModel from "../../model/Drink";
 import UserModel from "../../model/User";
@@ -39,6 +40,7 @@ export default function User(){
     return loaded?(
         <div className={styles.container}>
             <Navbar/>
+            {user&&<UserTitle User={user} />}
             <div className={styles.content}>
                 {user&&renderContent(user.lstDrinks)}
             </div>
