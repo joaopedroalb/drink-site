@@ -23,10 +23,10 @@ export default function User(){
     },[id,loaded])
 
     function renderContent(lstDrinks:DrinkModel[]){
-        if(lstDrinks.filter(e=>e.drinked).length!=lstDrinks.length){
+        if(lstDrinks.length>0){
             return (
                 lstDrinks.map((e,i)=>{
-                    return e.drinked?(false):(<DrinkRow drink={e} key={i}/>)
+                    return <DrinkRow drink={e} key={i}/>
                 })
             )
         }

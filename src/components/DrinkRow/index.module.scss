@@ -1,4 +1,4 @@
-.card{
+.card , .cardDisable{
     min-width: 230px;
     min-height: 50px;
 
@@ -7,8 +7,6 @@
     justify-content: space-between;
 
     padding: 0 1rem;
-
-    background-color: #fff;
 
     button{
         border: none;
@@ -21,13 +19,28 @@
         background: white;
         font-size: 2rem;
 
-        svg{
-            cursor: pointer;
-        }
     }
 }
 
 .title{
     font-size: 1.2rem;
     font-weight: 500;
+}
+
+.card{
+    background-color: #fff;
+
+    button{
+        svg{
+            cursor: pointer;
+        }
+    }
+}
+
+.cardDisable{
+    background-color: #c6c3c3;
+
+    button{
+        background-color: #c6c3c3;
+    }
 }
