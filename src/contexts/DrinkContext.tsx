@@ -25,7 +25,7 @@ export function DrinkContextProvider({children}:DrinkContextProviderProps){
     const [lstUsers,setLstUsers] = useState<Array<UserModel>>([])
     const [loaded,setloaded] = useState(false)
 
-    const baseUrl = "http://3.13.112.254:3000"
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL
 
     const pathImg = "https://cdn.discordapp.com/attachments/580125063186087966/926204078613225522/Portrait_Placeholder.png"
 
