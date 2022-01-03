@@ -18,13 +18,22 @@ const Home: NextPage = () => {
   }
 
   function renderContent(){
+    lstUsers.sort(function (a,b){
+        if(a.lstDrinks.filter(x=>!x.drinked).length>b.lstDrinks.filter(x=>!x.drinked).length)
+        return 1
+
+        if(a.lstDrinks.filter(x=>!x.drinked).length<b.lstDrinks.filter(x=>!x.drinked).length)
+        return -1
+
+        return 0
+    })
+    
     if(lstUsers.length==0)
       return <h1>Não tem usuario</h1>
 
     return(
-      lstUsers.map(user=>{
+      lstUsers.sort(user=>user.lstDrinks.filter(x=>x.drinked==false).length).reverse().map(user=>{
         return (<Card name={user.name} idPerson={user.id} drinks={getDrinks(user)} pathImg={user.path} key={user.id}/>)
-        
       })
     )
   }
