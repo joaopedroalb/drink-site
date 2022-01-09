@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+    backenddrink:
+        build:
+            context: .
+            dockerfile: ./frontenddrink.DockerFile
+        image: frontenddrink
+        ports:
+            - "80:3005"
+            - "443:3005"
